@@ -1,0 +1,195 @@
+* {
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+body {
+    background-color: black;
+
+    margin: 0;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+}
+
+canvas {
+    cursor: pointer;
+}
+
+#input-container {
+    height: 100%;
+    width: calc(100%);
+    padding: 50px 50px;
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+#input-container > * {
+    margin: 0.5rem 0;
+}
+
+div.row {
+    width: 100%;
+    margin: 0.5em 0;
+}
+
+div.row.toggler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid greenyellow;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+header {
+    width: fit-content;
+    align-self: flex-start;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+button {
+    width: 100%;
+    padding: 0.75em;
+    text-transform: uppercase;
+    background-color: black;
+    color: greenyellow;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+button:is(:focus,:active) {
+    outline: none;
+}
+
+button.active {
+    color: black;
+    background-color: greenyellow;
+}
+
+button#run {
+    border-radius: 9999px;
+    font-weight: 600;
+    width: 90%;
+    padding: 1em;
+    flex: 0.25 1 auto;
+    background-color: gold;
+    color: black;
+}
+
+/* Pallete Stuff */
+
+#pallete {
+    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* background-color: red; */
+    overflow: hidden;
+    margin: 0;
+    padding: 2rem 0;
+}
+
+#pallete img {
+    filter: invert(100%);
+    height: 2rem;
+    width: auto;
+    cursor: pointer;
+}
+
+#wheel {
+    margin: 2rem;
+    display: inline-flex;
+    /* display: block; */
+    /* background-color: aquamarine; */
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#wheel::-webkit-scrollbar {
+    background-color: transparent;
+    height: 10px;
+}
+
+#wheel::-webkit-scrollbar-thumb {
+    background-color: coral;
+    border-radius: 999px;
+}
+
+#wheel > div {
+    display: inline-block;
+    height: 100px;
+    width: 150px;
+    border-radius: 10px;
+    border: 3px dashed white;
+    margin: 0 5px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+div.add-color {
+    align-self: center;
+    position: relative;
+    height: 25px !important;
+    width: 25px !important;
+    border-radius: 50% !important;
+    background-color: gray !important;
+    border: none !important;
+}
+
+div.add-color::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+div.add-color:hover {
+    background-color: blue;
+}
+
+#wheel > div.active {
+    border: 3px dashed blueviolet;
+}
+
+#wheel-info {
+    margin: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+ctext {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    padding: 0.5rem;
+    outline: none;
+    color: grey;
+}
+
+/* Miscellaneous */
+
+slider {
+    color: blueviolet;
+    --slider-color: white;
+    height: 4rem;
+    font-size: 2rem;
+}

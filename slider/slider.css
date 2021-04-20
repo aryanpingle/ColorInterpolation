@@ -1,0 +1,28 @@
+slider {
+    cursor: e-resize;
+    height: 2em;
+    width: 100%;
+    user-select: none;
+    -webkit-user-drag: none;
+    color: white;
+    background-color: white;
+    outline: 2px solid greenyellow;
+    --progress: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+
+    --slider-color: black;
+    --slider-bkg: transparent;
+
+    background: linear-gradient(to right, var(--slider-color) var(--progress), var(--slider-bkg) var(--progress));
+    margin: 0.5rem 0;
+}
+
+slider::selection {
+    background-color: greenyellow;
+}

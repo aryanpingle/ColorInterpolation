@@ -1,12 +1,19 @@
-TRANSPARENT = [0, 0, 0, 0];
-WHITE = [255, 255, 255, 255];
-BLACK = [0, 0, 0, 255];
-RED = [255, 0, 0, 255];
-GREEN = [0, 255, 0, 255];
-BLUE = [0, 0, 255, 255];
-PURPLE = [152, 0, 255, 255];
-CYAN = [0, 255, 255, 255];
-ORANGE = [255, 152, 0, 255];
+"use strict"
+
+const print = console.log
+
+const TRANSPARENT = [0, 0, 0, 0]
+const WHITE = [255, 255, 255, 255]
+const BLACK = [0, 0, 0, 255]
+const RED = [255, 0, 0, 255]
+const GREEN = [0, 255, 0, 255]
+const BLUE = [0, 0, 255, 255]
+const PURPLE = [152, 0, 255, 255]
+const CYAN = [0, 255, 255, 255]
+const ORANGE = [255, 152, 0, 255]
+const YELLOW = [255, 255, 0, 255]
+const GRAY = [128, 128, 128, 255]
+const GREY = GRAY
 
 function get_color_towards(from, to, percentage)
 {

@@ -3,23 +3,40 @@
     font-size: 20px;
 }
 
+:root {
+
+}
+
 body {
     background-color: black;
 
     margin: 0;
-    padding: 10px;
+    padding: 0;
 
     display: flex;
+    align-items: stretch;
+}
+
+body > * {
+    flex: 1 1 50%;
+    overflow: hidden;
+}
+
+.section-image {
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 canvas {
     cursor: pointer;
+    max-width: 100%;
+    max-height: 100%;
 }
 
-#input-container {
+.section-inputs {
     height: 100%;
-    width: calc(100%);
     padding: 50px 50px;
     /* background-color: blueviolet; */
     display: flex;
@@ -54,34 +71,37 @@ header {
     font-family: 'Courier New', Courier, monospace;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 button {
-    width: 100%;
-    padding: 0.75em;
-    text-transform: uppercase;
-    background-color: black;
-    color: greenyellow;
-    border: none;
-    cursor: pointer;
-    letter-spacing: 2px;
-}
-
-button:is(:focus,:active) {
-    outline: none;
-}
-
-button.active {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.5em;
     color: black;
+    cursor: pointer;
+    font-size: 2em;
+    text-transform: uppercase;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25em;
+}
+
+.button__icon {
+    height: 1em;
+}
+
+button#button-run {
     background-color: greenyellow;
 }
 
-button#run {
-    border-radius: 9999px;
-    font-weight: 600;
-    width: 90%;
-    padding: 1em;
-    flex: 0.25 1 auto;
+button#button-download {
     background-color: gold;
-    color: black;
 }
 
 /* Pallete Stuff */
@@ -107,10 +127,9 @@ button#run {
 }
 
 #wheel {
-    margin: 2rem;
+    width: 100%;
+    margin: 2em 0em;
     display: inline-flex;
-    /* display: block; */
-    /* background-color: aquamarine; */
     overflow-x: auto;
     white-space: nowrap;
 }

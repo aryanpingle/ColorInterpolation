@@ -11,7 +11,7 @@ var INTERPOLATION_TYPE = 0;
 
 img.onload = function() {
     let x = document.getElementById("wheel");
-    $(x).css("max-width", "0");
+    // $(x).css("max-width", "0");
     
     let starttime = 0;
     let factor = Math.min(max_img_w/img.width, max_img_h/img.height);
@@ -29,7 +29,7 @@ img.onload = function() {
     pixels = ctx.getImageData(0, 0, WIDTH, HEIGHT).data;
     print(`Pixels set up in %c${new Date().getTime()-starttime} ms`, 'color:greenyellow');
     
-    $(x).css("max-width", x.parentElement.offsetWidth-100);
+    // $(x).css("max-width", x.parentElement.offsetWidth-100);
 };
 
 // Variables

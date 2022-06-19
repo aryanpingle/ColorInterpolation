@@ -89,11 +89,14 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.25em;
 }
 
 .button__icon {
     height: 1em;
+}
+
+.button__text {
+    margin-left: 0.25em;
 }
 
 button#button-run {
@@ -207,8 +210,6 @@ ctext {
 /* Miscellaneous */
 
 slider {
-    color: blueviolet;
-    --slider-color: white;
     height: 4rem;
     font-size: 2rem;
 }

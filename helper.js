@@ -66,13 +66,3 @@ function putPixel(rgba, index, imgdata)
     imgdata.data[index+2] = rgba[2];
     imgdata.data[index+3] = rgba[3];
 }
-
-// function link_toggle_buttons() {
-//     document.querySelectorAll(".toggler > *").forEach(element => {
-
-//     }).click(function(event){
-//         $(this.parentElement).children().removeClass("active");
-//         $(this).addClass("active");
-//         eval(this.getAttribute("use"));
-//     });
-// }

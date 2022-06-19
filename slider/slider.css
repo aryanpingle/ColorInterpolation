@@ -5,21 +5,20 @@ slider {
     user-select: none;
     -webkit-user-drag: none;
     color: white;
-    background-color: white;
-    outline: 2px solid greenyellow;
     --progress: 0px;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 600;
-
-    --slider-color: black;
+    
+    --slider-color: rgba(255, 255, 255, 0.2);
     --slider-bkg: transparent;
-
+    
     background: linear-gradient(to right, var(--slider-color) var(--progress), var(--slider-bkg) var(--progress));
+    background-color: rgba(255, 255, 255, 0.2);
     margin: 0.5rem 0;
 }
 

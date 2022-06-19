@@ -101,9 +101,9 @@ function select_color(x) {
         normalize(ele)
     })
     x.classList.add("active")
-    let hhh = document.querySelectorAll("div.add-color")
-    x.before(hhh[0])
-    x.after(hhh[1])
+    let add_buttons = document.querySelectorAll("div.add-color")
+    x.before(add_buttons[0])
+    x.after(add_buttons[1])
 
     document.querySelector("ctext").innerHTML = x.getAttribute("text")
     select_text()

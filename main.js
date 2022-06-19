@@ -145,11 +145,14 @@ function normalize(x) {
 }
 
 function delete_selected() {
-    let a = document.querySelectorAll("#wheel > *")
-    if (a.length > 3) {
-        a.filter(".active").remove()
-        select_color(a.filter(":not(.active,.add-color)")[0])
-    }
+    let wheel = document.querySelector("#wheel")
+    if(wheel.childElementCount == 3) return
+
+    let selected = wheel.querySelector(".active")
+    let selected_after_deleting = wheel.querySelector(":not(.active, .add-color)")
+    print(selected_after_deleting)
+    select_color(selected_after_deleting)
+    selected.remove()
 }
 
 function ctext_pressed(event) {

@@ -15,7 +15,11 @@ const YELLOW = [255, 255, 0, 255]
 const GRAY = [128, 128, 128, 255]
 const GREY = GRAY
 
-function get_color_towards(from, to, percentage)
+function lerp(val, lb, ub, lv, uv) {
+    return lv + (uv-lv)*(val-lb)/(ub-lb)
+}
+
+function get_color_towards(from, to, fraction)
 {
     if(from.length==3)
     {
@@ -25,9 +29,9 @@ function get_color_towards(from, to, percentage)
     {
         to.push(255);
     }
-    percentage = Math.max(Math.min(1, percentage), 0);
+    fraction = Math.max(Math.min(1, fraction), 0);
     return [0, 1, 2, 3].map((i)=>{
-        return parseInt(from[i]*(1-percentage) + percentage*to[i]);
+        return parseInt(from[i]*(1-fraction) + fraction*to[i]);
     });
 }
 

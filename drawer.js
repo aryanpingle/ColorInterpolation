@@ -57,16 +57,25 @@ function f(rgba)
     return standards[Math.max(0, parseInt(f))]
 }
 
+function get_interpolated_color(grayscale, SOURCE_COLORS) {
+    const N = SOURCE_COLORS.length
+    
+    // The grayscale can be in one of N-1 buckets
+    // So I'm assigning it a bucket based on the starting index of the bucket i.e. N - 2 possible values
+
+    let combination_start_index = Math.floor(lerp(grayscale, 0, 256, 0, N - 1))
+
+    let unit = 255 / (N - 1)
+    let fr = lerp(grayscale, combination_start_index*unit, (combination_start_index + 1)*unit, 0, 1)
+
+    return get_color_towards(SOURCE_COLORS[combination_start_index], SOURCE_COLORS[combination_start_index+1], fr)
+}
+
 function paint() {
-    print("Inside paint()")
     let INTERPOLATION_LIMIT = document.getElementById("interpolation-limit").getAttribute("value")
 
-    standards = []
-    for(const a of document.querySelectorAll("#wheel > div:not(.add-color)"))
-    {
-        standards.push(a.getAttribute("value"))
-    }
-    print(standards)
+    const WHEEL_COLORS = [...document.querySelectorAll("#wheel > div:not(.add-color)")].map(ele => ele.getAttribute("value"))
+    standards = [...WHEEL_COLORS]
 
     // Figure out here which type of interpolation it is
     INTERPOLATION_TYPE = 0
@@ -86,35 +95,29 @@ function paint() {
         {
             standards[i] = eval(standards[i])
         }
-        print("STANDARDS:", standards)
-        interpolate(INTERPOLATION_LIMIT)
     }
-    
-    let starttime = new Date().getTime()
+
     let imgdata = new ImageData(WIDTH, HEIGHT)
+    let starttime = new Date().getTime()
     for(let x = 0; x < WIDTH; ++x)
     {
-        let fr = x/WIDTH
+        let fr = x / WIDTH
         // Perform fractional interpolation
         if(INTERPOLATION_TYPE == 1)
         {
-            standards = []
-            for(const a of document.querySelectorAll("#wheel > div:not(.add-color)"))
+            standards = new Array(WHEEL_COLORS.length)
+            for(let i = 0; i < standards.length; ++i)
             {
-                standards.push(eval(a.getAttribute("value")))
-                if(typeof standards[-1] == Array && standards[-1].length==3)
-                {
-                    standards[-1].push(255)
-                }
+                standards[i] = eval(WHEEL_COLORS[i])
             }
-            interpolate(INTERPOLATION_LIMIT)
+            print(standards)
         }
         
         for(let j = 0; j < HEIGHT; ++j)
         {
             let index = 4*(j*WIDTH + x)
-            let rgba = pixels.slice(index, index+4)
-            putPixel(f(rgba), index, imgdata)
+            let rgba = [pixels[index], pixels[index+1], pixels[index+2]]
+            putPixel(get_interpolated_color(average(rgba), standards), index, imgdata)
         }
     }
     print(`New Image created in %c${new Date().getTime()-starttime}ms`, 'color: greenyellow;')

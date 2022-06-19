@@ -11,11 +11,9 @@ window.onload = function () {
     canvas.addEventListener("dragover", canvas_dragover, false)
     canvas.addEventListener("drop", canvas_dropped, false)
     setup_slider()
-    // link_toggle_buttons()
-    let t = document.getElementById("wheel").children
-    normalize(t[1])
-    normalize(t[2])
-    select_color(t[1])
+    let preset_colors = document.querySelectorAll("#wheel > :not(.add-color)")
+    preset_colors.forEach(normalize)
+    select_color(preset_colors[0])
     load_image('images/Arkham Knight.jpg')
 }
 
@@ -117,19 +115,16 @@ function normalize(x) {
     if (x == null) x = document.querySelectorAll("#wheel .active")[0]
     print("Normalizing element:", x)
     let text = x.getAttribute("text")
-    if (text.startsWith("range")) {
+    if (text.match(/\//)) {
         print("Setting to a %cCOLOR RANGE", "color:orange")
         let fr = 0
-        text = text.replace(/(?<=,|\()([a-zA-Z]+)(?=\)|,)/gm, ($0, $1) => { return $0.replace($1, $1 != "fr" ? $1.toUpperCase() : $1) })
-        text = text.substring(6, text.length - 1)
-        print(text)
-        if (eval("[" + text + "]").length == 2) {
-            text += ", fr"
-        }
-        let value = "get_color_towards(" + text + ")"
+        // Make all word arguments uppercase
+        let args = text.toUpperCase().split(/\s*\/\s*/g)
+        
+        let value = `get_color_towards(${args.join(",")}, fr)`
         x.setAttribute("value", value)
-        text = eval("[" + text + "]")
-        x.style.setProperty("background", "linear-gradient(to right, " + rgba_to_text(text[0]) + ", " + rgba_to_text(text[1]) + ")")
+        args = args.map(arg => eval(arg))
+        x.style.setProperty("background", "linear-gradient(to right, " + rgba_to_text(args[0]) + ", " + rgba_to_text(args[1]) + ")")
     }
     else {
         text = text.toUpperCase()
@@ -157,7 +152,7 @@ function delete_selected() {
 
 function ctext_pressed(event) {
     if (event.keyCode == 13) {
-        document.querySelectorAll("#wheel .active")[0].setAttribute("text", $("ctext")[0].innerText)
+        document.querySelectorAll("#wheel .active")[0].setAttribute("text", document.querySelector("ctext").innerText)
 
         try {
             normalize(null)

@@ -62,7 +62,7 @@ function paint() {
     let INTERPOLATION_LIMIT = document.getElementById("interpolation-limit").getAttribute("value")
 
     standards = []
-    for(const a of $("#wheel > div:not(.add-color)"))
+    for(const a of document.querySelectorAll("#wheel > div:not(.add-color)"))
     {
         standards.push(a.getAttribute("value"))
     }
@@ -99,7 +99,7 @@ function paint() {
         if(INTERPOLATION_TYPE == 1)
         {
             standards = []
-            for(const a of $("#wheel > div:not(.add-color)"))
+            for(const a of document.querySelectorAll("#wheel > div:not(.add-color)"))
             {
                 standards.push(eval(a.getAttribute("value")))
                 if(typeof standards[-1] == Array && standards[-1].length==3)

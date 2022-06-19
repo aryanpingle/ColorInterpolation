@@ -92,7 +92,6 @@ function select_text() {
 
 function select_color(x) {
     if (x == null) x = document.querySelectorAll("#wheel .active")[0]
-    print("Selecting element:", x)
     x.parentElement.querySelectorAll(".active").forEach(ele => {
         ele.classList.remove("active")
         ele.setAttribute("text", document.querySelector("ctext").innerText)
@@ -113,10 +112,8 @@ function select_color(x) {
 */
 function normalize(x) {
     if (x == null) x = document.querySelectorAll("#wheel .active")[0]
-    print("Normalizing element:", x)
     let text = x.getAttribute("text")
     if (text.match(/\//)) {
-        print("Setting to a %cCOLOR RANGE", "color:orange")
         let fr = 0
         // Make all word arguments uppercase
         let args = text.toUpperCase().split(/\s*\/\s*/g)
@@ -133,7 +130,6 @@ function normalize(x) {
         if (value.length == 3) {
             value.push(255)
         }
-        print("Color set to %c" + value + "", "color:rgba(" + value + ")")
         x.setAttribute("value", "[" + value + "]")
         x.style.setProperty("background", rgba_to_text(value))
     }

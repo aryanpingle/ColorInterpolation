@@ -110,7 +110,6 @@ function paint() {
             {
                 standards[i] = eval(WHEEL_COLORS[i])
             }
-            print(standards)
         }
         
         for(let j = 0; j < HEIGHT; ++j)
@@ -121,7 +120,5 @@ function paint() {
         }
     }
     print(`New Image created in %c${new Date().getTime()-starttime}ms`, 'color: greenyellow;')
-    starttime = new Date().getTime()
     ctx.putImageData(imgdata, 0, 0)
-    print(`Finished drawing in %c${new Date().getTime()-starttime}ms`, 'color: greenyellow;')
 }

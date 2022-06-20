@@ -72,7 +72,7 @@ function get_interpolated_color(grayscale, SOURCE_COLORS) {
 }
 
 function paint() {
-    let INTERPOLATION_LIMIT = document.getElementById("interpolation-limit").getAttribute("value")
+    let INTERPOLATION_LIMIT = document.querySelector(".interpolation-input").getAttribute("value")
 
     const WHEEL_COLORS = [...document.querySelectorAll("#wheel > div:not(.add-color)")].map(ele => ele.getAttribute("value"))
     standards = [...WHEEL_COLORS]

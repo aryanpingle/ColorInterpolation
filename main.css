@@ -1,10 +1,10 @@
 * {
     box-sizing: border-box;
-    font-size: 20px;
+    font-size: inherit;
 }
 
 :root {
-
+    font-size: 20px;
 }
 
 body {
@@ -36,6 +36,7 @@ canvas {
 }
 
 .section-inputs {
+    font-family: 'Courier New', Courier, monospace;
     height: 100%;
     padding: 50px 50px;
     /* background-color: blueviolet; */
@@ -68,7 +69,38 @@ header {
     background-color: black;
     color: white;
     text-transform: uppercase;
-    font-family: 'Courier New', Courier, monospace;
+    margin: 1em 0;
+}
+
+.interpolation-input {
+    width: 100%;
+    font-size: 3em;
+    background-color: #121212;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.interpolation__decrease, .interpolation__increase {
+    cursor: pointer;
+    height: 1em;
+    flex: 0 0 1em;
+    filter: invert(0.75);
+    background-image: url("images/icons/left-arrow.png");
+    background-size: 75%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.interpolation__increase {
+    transform: rotateY(180deg);
+}
+
+.interpolation__count {
+    text-align: center;
+    flex: 1 0 0;
+    color: white;
 }
 
 .button-container {
@@ -83,7 +115,7 @@ button {
     padding: 0.5em;
     color: black;
     cursor: pointer;
-    font-size: 2em;
+    font-size: 1.5em;
     text-transform: uppercase;
 
     display: flex;
@@ -205,11 +237,4 @@ ctext {
     padding: 0.5rem;
     outline: none;
     color: grey;
-}
-
-/* Miscellaneous */
-
-slider {
-    height: 4rem;
-    font-size: 2rem;
 }

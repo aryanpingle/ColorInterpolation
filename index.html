@@ -6,12 +6,10 @@
     <title>Colourize Interpolation</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="slider/slider.css">
     <link rel="stylesheet" href="main.css">
 
     <!-- JS -->
     <script src="helper.js" defer></script>
-    <script src="slider/slider.js" defer></script>
     <script src="drawer.js" defer></script>
     <script src="main.js" defer></script>
 </head>
@@ -23,7 +21,12 @@
     <section class="section-inputs" id="input-container">
         <div class="row">
             <header>Number of Interpolations:</header>
-            <slider id="interpolation-limit" min-value=0 max-value=8 default=0 use="paint()"></slider>
+            <div class="interpolation-input" value="0">
+                <div class="interpolation__decrease"></div>
+                <div class="interpolation__count">0</div>
+                <div class="interpolation__increase"></div>
+            </div>
+            <!-- <slider id="interpolation-limit" min-value=0 max-value=8 default=0 use="paint()"></slider> -->
         </div>
         
         <div id="pallete">
@@ -43,7 +46,6 @@
         <div class="button-container">
             <button id="button-run" onclick="paint()">
                 <img class="button__icon" src="images/play-button.png" alt="Run Icon">
-                <div class="button__text"></div>
             </button>
             <button id="button-download" onclick="save_image()">
                 <img class="button__icon" src="images/download-arrow.png" alt="Download Icon">

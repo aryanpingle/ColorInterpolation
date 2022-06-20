@@ -1,5 +1,7 @@
 "use strict"
 
+let INTERPOLATION_COUNT = 0
+
 window.onload = function () {
     // Service Worker
     if("serviceWorker" in navigator) {
@@ -10,7 +12,7 @@ window.onload = function () {
     canvas.addEventListener("dragleave", canvas_dragleave, false)
     canvas.addEventListener("dragover", canvas_dragover, false)
     canvas.addEventListener("drop", canvas_dropped, false)
-    setup_slider()
+    setup_interpolation_input()
     let preset_colors = document.querySelectorAll("#wheel > :not(.add-color)")
     preset_colors.forEach(normalize)
     select_color(preset_colors[0])
@@ -21,8 +23,6 @@ function preventDefault(e) {
     e.preventDefault()
     e.stopPropagation()
 }
-
-var mysoul = 0
 
 function canvas_dragleave(event) {
     event.preventDefault()
@@ -147,8 +147,9 @@ function delete_selected() {
 }
 
 function ctext_pressed(event) {
-    if (event.keyCode == 13) {
-        document.querySelectorAll("#wheel .active")[0].setAttribute("text", document.querySelector("ctext").innerText)
+    if (event.keyCode == 13) { // [ENTER]
+        print(event.target)
+        document.querySelectorAll("#wheel .active")[0].setAttribute("text", event.target.innerText)
 
         try {
             normalize(null)
@@ -158,5 +159,22 @@ function ctext_pressed(event) {
             print("%cINVALID COLOR!", "color:red")
         }
         event.preventDefault()
+    }
+}
+
+function setup_interpolation_input() {
+    document.querySelector(".interpolation__decrease").onclick = event => {
+        if(INTERPOLATION_COUNT == 0) {
+            return
+        }
+        --INTERPOLATION_COUNT
+        document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
+    }
+    document.querySelector(".interpolation__increase").onclick = event => {
+        if(INTERPOLATION_COUNT == 8) {
+            return
+        }
+        ++INTERPOLATION_COUNT
+        document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
     }
 }

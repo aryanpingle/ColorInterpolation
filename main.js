@@ -169,6 +169,9 @@ function setup_interpolation_input() {
         }
         --INTERPOLATION_COUNT
         document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
+        const PALETTE_COUNT = document.querySelector("#wheel").childElementCount - 2
+        print(`${1 + (PALETTE_COUNT - 1) * (2**INTERPOLATION_COUNT)} colors will be created`)
+        paint()
     }
     document.querySelector(".interpolation__increase").onclick = event => {
         if(INTERPOLATION_COUNT == 8) {
@@ -176,5 +179,8 @@ function setup_interpolation_input() {
         }
         ++INTERPOLATION_COUNT
         document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
+        const PALETTE_COUNT = document.querySelector("#wheel").childElementCount - 2
+        print(`${1 + (PALETTE_COUNT - 1) * (2**INTERPOLATION_COUNT)} colors will be created`)
+        paint()
     }
 }

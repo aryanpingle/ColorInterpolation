@@ -5,13 +5,13 @@
 //  service worker on the planet //
 ///////////////////////////////////
 
-const APP_VERSION = 1.00
+const APP_VERSION = 1.01
 
 // Document Cache is a cache of document files - html, js, css, etc
 const DOCUMENT_CACHE_NAME = `DOC`
 var DOCUMENT_CACHE = null
 // Resource Cache is a cache of almost always static resources - images, fonts, .json files
-const RESOURCE_VERSION = 1.00
+const RESOURCE_VERSION = 1.01
 const RESOURCE_CACHE_NAME = `RESv${RESOURCE_VERSION.toFixed(2)}`
 var RESOURCE_CACHE = null
 
@@ -22,7 +22,7 @@ String.prototype.endsWithAny = function (...ends) {
 
 // For Debugging
 const IS_TESTING = self.registration.scope.includes("127.0.0.1")
-const STOP_CACHING = 1 && IS_TESTING // Set to true while testing, false for public builds
+const STOP_CACHING = 0 && IS_TESTING // Set to true while testing, false for public builds
 const log = (text, color="white") => 1 || IS_TESTING ? console.log(`%c${text}`, `color: black; background-color: ${color};`) : ""
 
 self.addEventListener("install", event => {
@@ -80,7 +80,7 @@ async function get_request(request_event) {
     }
     
     // Check if the request is for a document
-    if(url.endsWithAny([".html", ".js", ".css", "/"]) && !url.includes("apis.google.com")) {
+    if(url.endsWithAny(".html", ".js", ".css", "/") && !url.includes("apis.google.com")) {
         return await handle_document_request(request_event)
     }
     // Check if the request is for a resource

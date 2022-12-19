@@ -184,3 +184,11 @@ function setup_interpolation_input() {
         paint()
     }
 }
+
+const HIDDEN_DOWNLOAD_LINK_ELEMENT = document.createElement("A")
+
+function save_image() {
+    HIDDEN_DOWNLOAD_LINK_ELEMENT.setAttribute('download', `Lerp.png`);
+    HIDDEN_DOWNLOAD_LINK_ELEMENT.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    HIDDEN_DOWNLOAD_LINK_ELEMENT.click();
+}

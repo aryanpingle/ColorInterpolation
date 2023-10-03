@@ -16,6 +16,7 @@ img.onload = function() {
         "background-color: white; color: black; font-weight: 700;"
     )
 
+    shaderHasBeenInitialized = false;
     paint()
 }
 
@@ -29,7 +30,9 @@ function paint() {
 
     // print(standards)
 
+    const stime = new Date();
     webglPaint(img, CANVAS, standards, INTERPOLATION_COUNT)
+    console.log(`Time taken: ${new Date() - stime}ms`);
 }
 
 // Variables

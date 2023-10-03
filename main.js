@@ -198,11 +198,11 @@ function changeInterpolation(DELTA) {
     // Show the count
     document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
     
-    paint()
-
     // DEBUGGING: Print the number of generated colors
     const PALETTE_COUNT = document.querySelector("#wheel").childElementCount - 2
     print(`${1 + (PALETTE_COUNT - 1) * (2**INTERPOLATION_COUNT)} colors will be created`)
+    
+    paint()
 }
 
 const HIDDEN_DOWNLOAD_LINK_ELEMENT = document.createElement("A")

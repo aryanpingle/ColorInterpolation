@@ -175,7 +175,7 @@ button#button-download {
 }
 
 #wheel::-webkit-scrollbar-thumb {
-    background-color: coral;
+    background-color: grey;
     border-radius: 999px;
 }
 

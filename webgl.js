@@ -42,14 +42,14 @@ function webglPaint(image_element, canvas, SOURCE_COLORS, INTERPOLATIONS) {
 	
 	varying vec2 texCoords;
 
-	const float INTERPOLATION_COUNT = float(${INTERPOLATIONS});
+	uniform float interpolationCount;
 	
 	uniform sampler2D textureSampler;
 	
 	uniform vec3 source_colors[${PALLETE_COUNT * 2}];
 
 	float getNumberOfBuckets() {
-		return pow(2.0, INTERPOLATION_COUNT) + 1.0;
+		return pow(2.0, interpolationCount) + 1.0;
 	}
 	
 	vec3 get_color_towards(vec3 from_color, vec3 to_color, float fraction) {
@@ -114,7 +114,7 @@ function webglPaint(image_element, canvas, SOURCE_COLORS, INTERPOLATIONS) {
 		// eg: fr=0.2, IC=2 => fr=0.25
 		float numberOfBuckets = getNumberOfBuckets();
 		float bucket_index = min(numberOfBuckets, floor(fr * numberOfBuckets));
-		float bucket_multiplier = 1.0 / pow(2.0, INTERPOLATION_COUNT);
+		float bucket_multiplier = 1.0 / pow(2.0, interpolationCount);
 		fr = bucket_multiplier * bucket_index;
 
 		// Set constraints
@@ -172,13 +172,10 @@ function webglPaint(image_element, canvas, SOURCE_COLORS, INTERPOLATIONS) {
 	
 	gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 	gl.enableVertexAttribArray(positionLocation)
-	
+
 	const texture = gl.createTexture()
 	gl.activeTexture(gl.TEXTURE0)
 	gl.bindTexture(gl.TEXTURE_2D, texture)
-	console.log("START")
-	let stime = new Date();
-	console.log(+stime);
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_element)
 	
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
@@ -186,13 +183,15 @@ function webglPaint(image_element, canvas, SOURCE_COLORS, INTERPOLATIONS) {
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
 	
-	let uniform_location = gl.getUniformLocation(program, "source_colors")
-	gl.uniform3fv(uniform_location, SOURCE_COLORS)
+	let uSourceColors = gl.getUniformLocation(program, "source_colors")
+	gl.uniform3fv(uSourceColors, SOURCE_COLORS)
+	let uInterpolationCount = gl.getUniformLocation(program, "interpolationCount")
+	gl.uniform1f(uInterpolationCount, INTERPOLATIONS * 1.0)
+	// let uPalleteCount = gl.getUniformLocation(program, "interpolationCount")
+	// gl.uniform1f(uPalleteCount, INTERPOLATIONS * 1.0)
 	
 	gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+	// Makes the function synchronous - REMOVE AFTER PERFORMANCE TESTING
 	gl.finish();
-	setTimeout(() => {
-		console.log(+new Date());
-		console.log(`END: ${new Date() - stime}ms`);
-	}, 0);
 }

@@ -1,22 +1,33 @@
 "use strict"
 
+// Global Variables
 let INTERPOLATION_COUNT = 0
 
-window.onload = function () {
-    // Service Worker
-    if("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("sw.js")
-    }
+// Initialize
+function init() {
+    // Event Listeners
+    CANVAS.addEventListener("dragenter", preventDefault, false)
+    CANVAS.addEventListener("dragleave", canvas_dragleave, false)
+    CANVAS.addEventListener("dragover", canvas_dragover, false)
+    CANVAS.addEventListener("drop", canvas_dropped, false)
 
-    canvas.addEventListener("dragenter", preventDefault, false)
-    canvas.addEventListener("dragleave", canvas_dragleave, false)
-    canvas.addEventListener("dragover", canvas_dragover, false)
-    canvas.addEventListener("drop", canvas_dropped, false)
+    // Setup the slider thingy
     setup_interpolation_input()
+
     let preset_colors = document.querySelectorAll("#wheel > :not(.add-color)")
     preset_colors.forEach(normalize)
+
+    // Select the first color by default
     select_color(preset_colors[0])
+
+    // Load the initial image
     load_image('images/Arkham Knight.jpg')
+}
+
+init()
+
+function load_image(src) {
+    img.src = src
 }
 
 function preventDefault(e) {
@@ -26,17 +37,17 @@ function preventDefault(e) {
 
 function canvas_dragleave(event) {
     event.preventDefault()
-    canvas.style.filter = ""
+    CANVAS.style.filter = ""
 }
 
 function canvas_dragover(event) {
     event.preventDefault()
-    canvas.style.filter = "blur(2px)"
+    CANVAS.style.filter = "blur(2px)"
 }
 
 function canvas_dropped(event) {
     event.preventDefault()
-    canvas.style.filter = ""
+    CANVAS.style.filter = ""
     let data = event.dataTransfer
     let txt = data.getData('text')
     const eds = ["jpg", "png"]
@@ -44,7 +55,7 @@ function canvas_dropped(event) {
         print("Detected: %c File ", "color:white;background-color:green;text-transform:uppercase;")
         print("DATA:", event)
         uploaded(data)
-        setup_slider()
+        // setup_slider()
     }
     else if (eds.includes(txt.substring(txt.lastIndexOf(".") + 1))) {
         print("Detected: %c URL ", "color:white;background-color:green;text-transform:uppercase;")
@@ -67,15 +78,18 @@ function uploaded(x) {
     load_image(URL.createObjectURL(x.files[0]))
 }
 
-function create_color(x, v) {
+function create_color(targetElement, v) {
     let ele = document.createElement("div")
     ele.setAttribute("onclick", "select_color(this)")
-    ele.setAttribute("text", "WHITE")
+    ele.setAttribute("text", targetElement.parentElement.querySelector(".active").getAttribute("text"))
     if (v == 0) {
-        x.after(ele)
+        // Add to right
+        targetElement.after(ele)
+        // console.log(targetElement.previousElement)
     }
     else {
-        x.before(ele)
+        targetElement.before(ele)
+        // console.log(targetElement.previousElement)
     }
     normalize(ele)
     select_color(ele)
@@ -112,26 +126,29 @@ function select_color(x) {
 */
 function normalize(x) {
     if (x == null) x = document.querySelectorAll("#wheel .active")[0]
-    let text = x.getAttribute("text")
+    let text = x.getAttribute("text").trim().toUpperCase()
     if (text.match(/\//)) {
-        let fr = 0
         // Make all word arguments uppercase
-        let args = text.toUpperCase().split(/\s*\/\s*/g)
-        
-        let value = `get_color_towards(${args.join(",")}, fr)`
+        let [left_color, right_color] = text.split(/\s*\/\s*/g)
+        left_color = eval(left_color)
+        right_color = eval(right_color)
+
+        // Set the [left_color, right_color] value of the element
+        let value = `[[${left_color}], [${right_color}]]`
         x.setAttribute("value", value)
-        args = args.map(arg => eval(arg))
-        x.style.setProperty("background", "linear-gradient(to right, " + rgba_to_text(args[0]) + ", " + rgba_to_text(args[1]) + ")")
+
+        // Set the background to a linear gradient
+        x.style.setProperty("background", `linear-gradient(to right, ${rgb_to_text(left_color)}, ${rgb_to_text(right_color)})`)
     }
     else {
-        text = text.toUpperCase()
-        let value = eval(text)
-        // Add alpha
-        if (value.length == 3) {
-            value.push(255)
-        }
-        x.setAttribute("value", "[" + value + "]")
-        x.style.setProperty("background", rgba_to_text(value))
+        let color = eval(text)
+
+        // Set the [left_color, right_color] value of the element
+        let value = `[[${color}], [${color}]]`
+        x.setAttribute("value", value)
+
+        // Set the background to simple color
+        x.style.setProperty("background", rgb_to_text(color))
     }
 }
 
@@ -164,31 +181,34 @@ function ctext_pressed(event) {
 
 function setup_interpolation_input() {
     document.querySelector(".interpolation__decrease").onclick = event => {
-        if(INTERPOLATION_COUNT == 0) {
-            return
-        }
-        --INTERPOLATION_COUNT
-        document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
-        const PALETTE_COUNT = document.querySelector("#wheel").childElementCount - 2
-        print(`${1 + (PALETTE_COUNT - 1) * (2**INTERPOLATION_COUNT)} colors will be created`)
-        paint()
+        if(INTERPOLATION_COUNT == 0) return
+
+        changeInterpolation(-1)
     }
     document.querySelector(".interpolation__increase").onclick = event => {
-        if(INTERPOLATION_COUNT == 8) {
-            return
-        }
-        ++INTERPOLATION_COUNT
-        document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
-        const PALETTE_COUNT = document.querySelector("#wheel").childElementCount - 2
-        print(`${1 + (PALETTE_COUNT - 1) * (2**INTERPOLATION_COUNT)} colors will be created`)
-        paint()
+        if(INTERPOLATION_COUNT == 8) return
+        
+        changeInterpolation(1)
     }
+}
+
+function changeInterpolation(DELTA) {
+    INTERPOLATION_COUNT += DELTA
+
+    // Show the count
+    document.querySelector(".interpolation__count").innerText = INTERPOLATION_COUNT
+    
+    paint()
+
+    // DEBUGGING: Print the number of generated colors
+    const PALETTE_COUNT = document.querySelector("#wheel").childElementCount - 2
+    print(`${1 + (PALETTE_COUNT - 1) * (2**INTERPOLATION_COUNT)} colors will be created`)
 }
 
 const HIDDEN_DOWNLOAD_LINK_ELEMENT = document.createElement("A")
 
 function save_image() {
-    HIDDEN_DOWNLOAD_LINK_ELEMENT.setAttribute('download', `Lerp.png`);
-    HIDDEN_DOWNLOAD_LINK_ELEMENT.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    HIDDEN_DOWNLOAD_LINK_ELEMENT.setAttribute('download', `Lerp.jpg`);
+    HIDDEN_DOWNLOAD_LINK_ELEMENT.setAttribute('href', CANVAS.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
     HIDDEN_DOWNLOAD_LINK_ELEMENT.click();
 }

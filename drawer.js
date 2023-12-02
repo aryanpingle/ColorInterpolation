@@ -20,7 +20,7 @@ img.onload = function() {
     paint()
 }
 
-function paint() {
+async function paint() {
     const standards = [...document.querySelectorAll("#wheel > div:not(.add-color)")].map(ele => ele.getAttribute("value"))
 
     for(let i=0; i < standards.length; ++i)
@@ -28,10 +28,8 @@ function paint() {
         standards[i] = eval(standards[i])
     }
 
-    // print(standards)
-
     const stime = new Date();
-    webglPaint(img, CANVAS, standards, INTERPOLATION_COUNT)
+    await webglPaint(img, CANVAS, standards, INTERPOLATION_COUNT)
     console.log(`Time taken: ${new Date() - stime}ms`);
 }
 

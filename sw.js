@@ -80,7 +80,7 @@ async function get_request(request_event) {
     }
     
     // Check if the request is for a document
-    if(url.endsWithAny(".html", ".js", ".css", "/") && !url.includes("apis.google.com")) {
+    if(url.endsWithAny(".html", ".js", ".css", "/", ".glsl") && !url.includes("apis.google.com")) {
         return await handle_document_request(request_event)
     }
     // Check if the request is for a resource
